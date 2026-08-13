@@ -245,22 +245,32 @@ img {
 }
 
 .navbar-brand-racs {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 12px;
+  justify-content: center;
+  background: #ffffff;
+  padding: 8px 16px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+  transition: var(--transition-fast);
+}
+
+.navbar-brand-racs:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(29, 143, 205, 0.4);
 }
 
 .brand-logo-img {
-  height: 58px;
+  height: 68px;
   width: auto;
-  max-width: 300px;
+  max-width: 340px;
   object-fit: contain;
   transition: var(--transition-fast);
 }
 
 .footer-racs .brand-logo-img {
-  height: 68px;
-  max-width: 340px;
+  height: 78px;
+  max-width: 380px;
 }
 
 .nav-link-racs {
@@ -623,7 +633,8 @@ img {
    -------------------------------------------------------------------------- */
 .stats-section {
   background: var(--brand-navy-dark);
-  border-y: 1px solid var(--border-dark);
+  border-top: 1px solid var(--border-dark);
+  border-bottom: 1px solid var(--border-dark);
   padding: 70px 0;
   color: var(--brand-white);
 }
