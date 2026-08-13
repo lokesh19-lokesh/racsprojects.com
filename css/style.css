@@ -886,6 +886,18 @@ img {
   font-weight: 500;
 }
 
+.footer-bottom a {
+  color: var(--brand-blue) !important;
+  font-weight: 600;
+  text-decoration: none;
+  transition: var(--transition-fast);
+}
+
+.footer-bottom a:hover {
+  color: #FFFFFF !important;
+  text-decoration: underline;
+}
+
 /* --------------------------------------------------------------------------
    13. ANIMATIONS & REVEAL CLASSES
    -------------------------------------------------------------------------- */
