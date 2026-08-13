@@ -1,0 +1,863 @@
+/* ==========================================================================
+   RACS PROJECTS - MEP Engineering & Contracting
+   Main Stylesheet
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   01. DESIGN TOKENS & VARIABLES
+   -------------------------------------------------------------------------- */
+:root {
+  --font-heading: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* Color Palette */
+  --bg-dark-deep: #060b19;
+  --bg-dark-main: #0a1128;
+  --bg-dark-surface: #0f172a;
+  --bg-dark-card: rgba(15, 23, 42, 0.85);
+  --bg-dark-card-hover: rgba(30, 41, 59, 0.9);
+  
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-accent: rgba(56, 189, 248, 0.25);
+
+  /* Primary Brand Colors */
+  --accent-blue-500: #0284c7;
+  --accent-blue-600: #0369a1;
+  --accent-blue-glow: rgba(2, 132, 199, 0.4);
+  --accent-cyan: #38bdf8;
+
+  /* Engineering Accents (Fire/Power) */
+  --accent-amber: #f59e0b;
+  --accent-orange: #ea580c;
+  --accent-amber-glow: rgba(245, 158, 11, 0.35);
+
+  /* Typography Colors */
+  --text-bright: #ffffff;
+  --text-main: #f1f5f9;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
+
+  /* Spacing & Transitions */
+  --transition-fast: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-normal: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-full: 9999px;
+  
+  --shadow-subtle: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 25px rgba(2, 132, 199, 0.25);
+  --shadow-amber-glow: 0 0 25px rgba(245, 158, 11, 0.25);
+}
+
+/* --------------------------------------------------------------------------
+   02. RESET & BASE STYLES
+   -------------------------------------------------------------------------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg-dark-deep);
+  color: var(--text-main);
+  line-height: 1.65;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  color: var(--text-bright);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+a {
+  text-decoration: none;
+  transition: var(--transition-fast);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* --------------------------------------------------------------------------
+   03. TYPOGRAPHY & UTILITIES
+   -------------------------------------------------------------------------- */
+.text-accent-blue { color: var(--accent-cyan) !important; }
+.text-accent-amber { color: var(--accent-amber) !important; }
+.text-muted-custom { color: var(--text-muted) !important; }
+
+.section-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  border-radius: var(--radius-full);
+  background: rgba(2, 132, 199, 0.12);
+  border: 1px solid var(--border-accent);
+  color: var(--accent-cyan);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 1rem;
+}
+
+.section-tag-amber {
+  background: rgba(245, 158, 11, 0.12);
+  border-color: rgba(245, 158, 11, 0.3);
+  color: var(--accent-amber);
+}
+
+.section-title {
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+.section-subtitle {
+  font-size: 1.125rem;
+  color: var(--text-muted);
+  max-width: 680px;
+}
+
+.bg-surface-dark {
+  background-color: var(--bg-dark-main);
+}
+
+.bg-surface-slate {
+  background-color: var(--bg-dark-surface);
+}
+
+/* --------------------------------------------------------------------------
+   04. BUTTONS & INTERACTIVE ELEMENTS
+   -------------------------------------------------------------------------- */
+.btn-racs {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 28px;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 0.95rem;
+  border-radius: var(--radius-sm);
+  transition: var(--transition-normal);
+  cursor: pointer;
+  border: none;
+  text-transform: capitalize;
+}
+
+.btn-racs-primary {
+  background: linear-gradient(135deg, var(--accent-blue-500), #1d4ed8);
+  color: var(--text-bright);
+  box-shadow: 0 4px 20px rgba(2, 132, 199, 0.35);
+}
+
+.btn-racs-primary:hover {
+  background: linear-gradient(135deg, #0369a1, #1e40af);
+  color: var(--text-bright);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(2, 132, 199, 0.5);
+}
+
+.btn-racs-outline {
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-bright);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.btn-racs-outline:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: var(--accent-cyan);
+  color: var(--accent-cyan);
+  transform: translateY(-2px);
+}
+
+.btn-racs-amber {
+  background: linear-gradient(135deg, var(--accent-amber), var(--accent-orange));
+  color: #000;
+  font-weight: 700;
+  box-shadow: 0 4px 20px rgba(245, 158, 11, 0.35);
+}
+
+.btn-racs-amber:hover {
+  background: linear-gradient(135deg, #d97706, #c2410c);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(245, 158, 11, 0.5);
+}
+
+.btn-sm-custom {
+  padding: 8px 18px;
+  font-size: 0.875rem;
+}
+
+/* --------------------------------------------------------------------------
+   05. NAVIGATION BAR
+   -------------------------------------------------------------------------- */
+.navbar-racs {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1050;
+  padding: 20px 0;
+  transition: var(--transition-normal);
+  background: transparent;
+}
+
+.navbar-racs.scrolled {
+  padding: 12px 0;
+  background: rgba(6, 11, 25, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-subtle);
+}
+
+.navbar-brand-racs {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 1.4rem;
+  color: var(--text-bright) !important;
+  letter-spacing: 0.04em;
+}
+
+.logo-badge {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, var(--accent-blue-500), var(--accent-amber));
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 1.2rem;
+  box-shadow: 0 0 15px rgba(2, 132, 199, 0.4);
+}
+
+.nav-link-racs {
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: rgba(241, 245, 249, 0.8) !important;
+  padding: 8px 16px !important;
+  position: relative;
+  transition: var(--transition-fast);
+}
+
+.nav-link-racs:hover,
+.nav-link-racs.active {
+  color: var(--accent-cyan) !important;
+}
+
+.nav-link-racs.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 16px;
+  right: 16px;
+  height: 2px;
+  background: var(--accent-cyan);
+  border-radius: 2px;
+  box-shadow: 0 0 8px var(--accent-cyan);
+}
+
+.navbar-toggler-racs {
+  border: 1px solid var(--border-subtle);
+  color: var(--text-bright);
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.navbar-toggler-racs:focus {
+  box-shadow: 0 0 0 2px var(--accent-cyan);
+}
+
+/* Mobile Offcanvas Customization */
+@media (max-width: 991.98px) {
+  .navbar-collapse {
+    background: var(--bg-dark-surface);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    margin-top: 15px;
+    border: 1px solid var(--border-subtle);
+    box-shadow: var(--shadow-subtle);
+  }
+  
+  .nav-link-racs {
+    padding: 10px 0 !important;
+  }
+
+  .nav-link-racs.active::after {
+    display: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   06. HERO SECTION
+   -------------------------------------------------------------------------- */
+.hero-racs {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding-top: 130px;
+  padding-bottom: 80px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(6, 11, 25, 0.88) 0%,
+    rgba(10, 17, 40, 0.92) 60%,
+    var(--bg-dark-deep) 100%
+  );
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+}
+
+.hero-title {
+  font-size: clamp(2.5rem, 5.5vw, 4.2rem);
+  font-weight: 800;
+  line-height: 1.15;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(180deg, #ffffff 40%, rgba(241, 245, 249, 0.85) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-subtitle {
+  font-size: clamp(1.1rem, 2vw, 1.35rem);
+  color: var(--text-muted);
+  max-width: 680px;
+  margin-bottom: 2.2rem;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+.hero-stats-badge {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 12px 20px;
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  margin-top: 2rem;
+  max-width: max-content;
+}
+
+/* --------------------------------------------------------------------------
+   07. CARDS & GRID COMPONENTS
+   -------------------------------------------------------------------------- */
+.racs-card {
+  background: var(--bg-dark-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 30px;
+  transition: var(--transition-normal);
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.racs-card:hover {
+  background: var(--bg-dark-card-hover);
+  border-color: var(--border-accent);
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-subtle), var(--shadow-glow);
+}
+
+.card-number {
+  font-family: var(--font-heading);
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.08);
+  position: absolute;
+  top: 20px;
+  right: 25px;
+  transition: var(--transition-fast);
+}
+
+.racs-card:hover .card-number {
+  color: rgba(56, 189, 248, 0.25);
+}
+
+.icon-box {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  background: rgba(2, 132, 199, 0.12);
+  border: 1px solid var(--border-accent);
+  color: var(--accent-cyan);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  margin-bottom: 1.5rem;
+  transition: var(--transition-normal);
+}
+
+.racs-card:hover .icon-box {
+  background: var(--accent-blue-500);
+  color: #fff;
+  box-shadow: 0 0 20px rgba(2, 132, 199, 0.5);
+}
+
+.icon-box-amber {
+  background: rgba(245, 158, 11, 0.12);
+  border-color: rgba(245, 158, 11, 0.3);
+  color: var(--accent-amber);
+}
+
+.racs-card:hover .icon-box-amber {
+  background: var(--accent-amber);
+  color: #000;
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.5);
+}
+
+/* Feature Check Points */
+.feature-point {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1rem;
+  color: var(--text-main);
+  font-weight: 500;
+}
+
+.feature-point i {
+  color: var(--accent-cyan);
+  font-size: 1.1rem;
+}
+
+/* --------------------------------------------------------------------------
+   08. SERVICES SPECIFIC STYLES
+   -------------------------------------------------------------------------- */
+.service-pill-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 1.2rem;
+}
+
+.service-pill {
+  font-size: 0.85rem;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-muted);
+  transition: var(--transition-fast);
+}
+
+.racs-card:hover .service-pill {
+  border-color: rgba(56, 189, 248, 0.3);
+  color: var(--text-bright);
+}
+
+.service-detail-section {
+  padding: 80px 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.service-img-wrapper {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-subtle);
+}
+
+.service-img-wrapper img {
+  width: 100%;
+  height: 420px;
+  object-fit: cover;
+  transition: var(--transition-normal);
+}
+
+.service-img-wrapper:hover img {
+  transform: scale(1.04);
+}
+
+.service-img-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 40%, rgba(10, 17, 40, 0.8) 100%);
+}
+
+/* --------------------------------------------------------------------------
+   09. PROJECTS PORTFOLIO STYLES
+   -------------------------------------------------------------------------- */
+.filter-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 3rem;
+}
+
+.filter-btn {
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  padding: 10px 22px;
+  border-radius: var(--radius-full);
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+  background: var(--accent-blue-500);
+  border-color: var(--accent-blue-500);
+  color: #fff;
+  box-shadow: 0 0 15px rgba(2, 132, 199, 0.4);
+}
+
+.project-card {
+  border-radius: var(--radius-md);
+  background: var(--bg-dark-card);
+  border: 1px solid var(--border-subtle);
+  overflow: hidden;
+  transition: var(--transition-normal);
+  height: 100%;
+}
+
+.project-card:hover {
+  transform: translateY(-8px);
+  border-color: var(--border-accent);
+  box-shadow: var(--shadow-subtle), var(--shadow-glow);
+}
+
+.project-img-box {
+  position: relative;
+  height: 240px;
+  overflow: hidden;
+}
+
+.project-img-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: var(--transition-normal);
+}
+
+.project-card:hover .project-img-box img {
+  transform: scale(1.08);
+}
+
+.project-category-badge {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background: rgba(6, 11, 25, 0.85);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border-accent);
+  color: var(--accent-cyan);
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  text-transform: uppercase;
+}
+
+.project-body {
+  padding: 24px;
+}
+
+.project-location {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.project-title {
+  font-size: 1.25rem;
+  margin-bottom: 12px;
+}
+
+.project-desc {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
+/* --------------------------------------------------------------------------
+   10. STATS & PROCESS TIMELINE
+   -------------------------------------------------------------------------- */
+.stats-section {
+  background: linear-gradient(135deg, rgba(2, 132, 199, 0.08) 0%, rgba(15, 23, 42, 0.95) 100%);
+  border-y: 1px solid var(--border-subtle);
+  padding: 70px 0;
+}
+
+.stat-item {
+  text-align: center;
+  padding: 20px;
+}
+
+.stat-number {
+  font-family: var(--font-heading);
+  font-size: clamp(2.8rem, 4vw, 3.8rem);
+  font-weight: 800;
+  color: var(--text-bright);
+  line-height: 1;
+  margin-bottom: 10px;
+  background: linear-gradient(180deg, #ffffff, var(--accent-cyan));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.stat-label {
+  font-size: 1rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* Process Steps */
+.process-step {
+  position: relative;
+  padding: 30px 24px;
+  background: var(--bg-dark-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  transition: var(--transition-normal);
+}
+
+.process-step:hover {
+  border-color: var(--border-accent);
+  transform: translateY(-4px);
+}
+
+.step-num {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--accent-cyan);
+  background: rgba(2, 132, 199, 0.15);
+  display: inline-block;
+  padding: 4px 14px;
+  border-radius: var(--radius-full);
+  margin-bottom: 15px;
+}
+
+/* --------------------------------------------------------------------------
+   11. CONTACT FORM & MAP STYLES
+   -------------------------------------------------------------------------- */
+.racs-form-card {
+  background: var(--bg-dark-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 40px;
+  box-shadow: var(--shadow-subtle);
+}
+
+.racs-input {
+  background: rgba(6, 11, 25, 0.6) !important;
+  border: 1px solid var(--border-subtle) !important;
+  color: var(--text-bright) !important;
+  border-radius: var(--radius-sm) !important;
+  padding: 14px 18px !important;
+  font-size: 0.95rem !important;
+}
+
+.racs-input:focus {
+  border-color: var(--accent-cyan) !important;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.2) !important;
+  background: rgba(6, 11, 25, 0.9) !important;
+}
+
+.racs-input::placeholder {
+  color: var(--text-dim);
+}
+
+select.racs-input option {
+  background: var(--bg-dark-surface);
+  color: var(--text-main);
+}
+
+.contact-info-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.contact-info-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  background: rgba(2, 132, 199, 0.12);
+  border: 1px solid var(--border-accent);
+  color: var(--accent-cyan);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  flex-shrink: 0;
+}
+
+.map-placeholder-box {
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--border-subtle);
+  height: 380px;
+  background: var(--bg-dark-surface);
+  position: relative;
+}
+
+.map-placeholder-box iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  filter: grayscale(100%) invert(92%) contrast(83%);
+}
+
+/* --------------------------------------------------------------------------
+   12. FOOTER STYLES
+   -------------------------------------------------------------------------- */
+.footer-racs {
+  background: #040813;
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 80px;
+  padding-bottom: 30px;
+}
+
+.footer-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.footer-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 35px;
+  height: 2px;
+  background: var(--accent-cyan);
+}
+
+.footer-links {
+  list-style: none;
+}
+
+.footer-links li {
+  margin-bottom: 12px;
+}
+
+.footer-links a {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.footer-links a:hover {
+  color: var(--accent-cyan);
+  padding-left: 6px;
+}
+
+.social-icon-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+  transition: var(--transition-fast);
+}
+
+.social-icon-btn:hover {
+  background: var(--accent-blue-500);
+  color: #fff;
+  border-color: var(--accent-blue-500);
+  transform: translateY(-3px);
+}
+
+.footer-bottom {
+  border-top: 1px solid var(--border-subtle);
+  margin-top: 50px;
+  padding-top: 25px;
+  color: var(--text-dim);
+  font-size: 0.88rem;
+}
+
+/* --------------------------------------------------------------------------
+   13. ANIMATIONS & REVEAL CLASSES
+   -------------------------------------------------------------------------- */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-on-scroll.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* --------------------------------------------------------------------------
+   14. RESPONSIVE BREAKPOINTS
+   -------------------------------------------------------------------------- */
+@media (max-width: 767.98px) {
+  .hero-racs {
+    padding-top: 110px;
+    padding-bottom: 60px;
+    text-align: center;
+  }
+
+  .hero-stats-badge {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .section-title {
+    font-size: 1.85rem;
+  }
+
+  .racs-card {
+    padding: 24px;
+  }
+}
