@@ -895,7 +895,57 @@ img {
 
 .footer-bottom a:hover {
   color: #FFFFFF !important;
-  text-decoration: underline;
+}
+
+/* --------------------------------------------------------------------------
+   THE BUBBLES MEDIA HOVER BUBBLE ANIMATION
+   -------------------------------------------------------------------------- */
+.bubbles-media-link {
+  position: relative;
+  display: inline-block;
+  color: #1D8FCD !important;
+  font-weight: 700;
+  text-decoration: none;
+  padding: 2px 6px;
+  border-radius: 6px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.bubbles-media-link:hover {
+  color: #FFFFFF !important;
+  background: rgba(29, 143, 205, 0.25);
+  box-shadow: 0 0 15px rgba(29, 143, 205, 0.5);
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+}
+
+.js-floating-bubble {
+  position: absolute;
+  bottom: 90%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.95), rgba(29, 143, 205, 0.75) 60%, rgba(29, 143, 205, 0.95));
+  box-shadow: 0 0 8px rgba(29, 143, 205, 0.9), inset -1px -1px 3px rgba(255, 255, 255, 0.9);
+  pointer-events: none;
+  animation: spawnBubble 1.5s cubic-bezier(0.2, 0.8, 0.4, 1) forwards;
+  z-index: 100;
+}
+
+@keyframes spawnBubble {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scale(0.3) rotate(0deg);
+  }
+  25% {
+    opacity: 1;
+    transform: translateY(-14px) scale(1.2) rotate(15deg);
+  }
+  75% {
+    opacity: 0.85;
+    transform: translateY(-32px) scale(1.35) translateX(6px) rotate(-15deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-48px) scale(0.5) translateX(-6px) rotate(30deg);
+  }
 }
 
 /* --------------------------------------------------------------------------

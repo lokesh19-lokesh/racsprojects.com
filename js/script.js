@@ -204,4 +204,49 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
+
+  // 7. Interactive Floating Bubble Animation for "The Bubbles Media" Link
+  const bubbleLinks = document.querySelectorAll('.bubbles-media-link');
+  bubbleLinks.forEach(link => {
+    let bubbleInterval;
+
+    link.addEventListener('mouseenter', function () {
+      // Spawn initial cluster of bubbles
+      for (let i = 0; i < 5; i++) {
+        setTimeout(() => createBubble(this), i * 140);
+      }
+
+      // Continuous spawning while hovering
+      bubbleInterval = setInterval(() => {
+        createBubble(this);
+      }, 250);
+    });
+
+    link.addEventListener('mouseleave', function () {
+      clearInterval(bubbleInterval);
+    });
+  });
+
+  function createBubble(parent) {
+    if (!parent) return;
+    const bubble = document.createElement('span');
+    bubble.className = 'js-floating-bubble';
+
+    const size = Math.floor(Math.random() * 10) + 6;
+    const leftPos = Math.floor(Math.random() * 85) + 5;
+    const duration = (Math.random() * 0.6 + 1.2).toFixed(2);
+
+    bubble.style.width = `${size}px`;
+    bubble.style.height = `${size}px`;
+    bubble.style.left = `${leftPos}%`;
+    bubble.style.animationDuration = `${duration}s`;
+
+    parent.appendChild(bubble);
+
+    setTimeout(() => {
+      if (bubble && bubble.parentNode) {
+        bubble.parentNode.removeChild(bubble);
+      }
+    }, parseFloat(duration) * 1000 + 100);
+  }
 });
