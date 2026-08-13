@@ -140,10 +140,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (contactForm) {
     contactForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      
       // Perform standard validation check
       if (!contactForm.checkValidity()) {
+        e.preventDefault();
         e.stopPropagation();
         contactForm.classList.add('was-validated');
         if (formAlert) {
@@ -155,32 +154,10 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       const submitBtn = contactForm.querySelector('button[type="submit"]');
-      const originalBtnText = submitBtn ? submitBtn.innerHTML : 'Submit Enquiry';
-
       if (submitBtn) {
         submitBtn.disabled = true;
         submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-2"></i> Submitting...';
       }
-
-      const formData = new FormData(contactForm);
-
-      Promise.allSettled([
-        fetch('send-mail.php', {
-          method: 'POST',
-          body: formData
-        }),
-        fetch('https://formsubmit.co/ajax/projects.racs@gmail.com', {
-          method: 'POST',
-          headers: { 'Accept': 'application/json' },
-          body: formData
-        })
-      ]).then(() => {
-        if (submitBtn) {
-          submitBtn.disabled = false;
-          submitBtn.innerHTML = originalBtnText;
-        }
-        window.location.href = 'thankyou.html';
-      });
     });
   }
 

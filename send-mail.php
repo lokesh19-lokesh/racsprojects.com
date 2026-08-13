@@ -7,7 +7,16 @@
 // Target email recipient
 $to = 'projects.racs@gmail.com';
 
-// Prevent direct GET requests
+// Handle CORS headers
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, X-Requested-With");
+
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    exit(0);
+}
+
+// Allow fallback GET redirect if accessed directly in browser
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: index.html');
     exit;
@@ -18,7 +27,7 @@ function sanitize_input($data) {
     return htmlspecialchars(trim(stripslashes($data)), ENT_QUOTES, 'UTF-8');
 }
 
-// Normalize all POST keys to lowercase without spaces, underscores, or dashes
+// Normalize POST keys to lowercase without spaces or underscores
 $normalizedPost = [];
 foreach ($_POST as $key => $val) {
     if (is_string($val)) {
@@ -27,46 +36,23 @@ foreach ($_POST as $key => $val) {
     }
 }
 
-// Extract Full Name
-$fullName = '';
-if (isset($normalizedPost['fullname'])) $fullName = $normalizedPost['fullname'];
-elseif (isset($normalizedPost['name'])) $fullName = $normalizedPost['name'];
-else $fullName = 'Website Lead';
+// Extract fields
+$fullName = isset($normalizedPost['fullname']) ? $normalizedPost['fullname'] : (isset($normalizedPost['name']) ? $normalizedPost['name'] : 'Website Lead');
+$email    = isset($normalizedPost['email']) ? $normalizedPost['email'] : '';
+$phone    = isset($normalizedPost['phone']) ? $normalizedPost['phone'] : '';
 
-// Extract Email
-$email = isset($normalizedPost['email']) ? $normalizedPost['email'] : '';
+$service  = isset($normalizedPost['requiredservice']) ? $normalizedPost['requiredservice'] : (isset($normalizedPost['servicerequired']) ? $normalizedPost['servicerequired'] : (isset($normalizedPost['service']) ? $normalizedPost['service'] : ''));
 
-// Extract Phone
-$phone = isset($normalizedPost['phone']) ? $normalizedPost['phone'] : '';
-
-// Extract Service
-$service = '';
-if (isset($normalizedPost['requiredservice'])) $service = $normalizedPost['requiredservice'];
-elseif (isset($normalizedPost['servicerequired'])) $service = $normalizedPost['servicerequired'];
-elseif (isset($normalizedPost['service'])) $service = $normalizedPost['service'];
-
-// Extract Company
-$company = isset($normalizedPost['companyname']) ? $normalizedPost['companyname'] : (isset($normalizedPost['company']) ? $normalizedPost['company'] : '');
-
-// Extract Category
+$company  = isset($normalizedPost['companyname']) ? $normalizedPost['companyname'] : (isset($normalizedPost['company']) ? $normalizedPost['company'] : '');
 $category = isset($normalizedPost['projectcategory']) ? $normalizedPost['projectcategory'] : (isset($normalizedPost['category']) ? $normalizedPost['category'] : '');
-
-// Extract Location
 $location = isset($normalizedPost['projectlocation']) ? $normalizedPost['projectlocation'] : (isset($normalizedPost['location']) ? $normalizedPost['location'] : '');
-
-// Extract Message / Project Details
-$message = '';
-if (isset($normalizedPost['message'])) $message = $normalizedPost['message'];
-elseif (isset($normalizedPost['projectdetails'])) $message = $normalizedPost['projectdetails'];
-elseif (isset($normalizedPost['details'])) $message = $normalizedPost['details'];
+$message  = isset($normalizedPost['message']) ? $normalizedPost['message'] : (isset($normalizedPost['projectdetails']) ? $normalizedPost['projectdetails'] : '');
 
 $subject = "New MEP Lead Enquiry - " . (!empty($fullName) ? $fullName : "RACS Projects Website");
 $emailBody = build_email_body($fullName, $email, $phone, $service, $company, $category, $location, $message);
 
-// -------------------------------------------------------------
 // Method 1: PHPMailer via vendor/autoload.php
-// -------------------------------------------------------------
-$phpmailerSent = false;
+$mailSent = false;
 if (file_exists(__DIR__ . '/vendor/autoload.php')) {
     require_once __DIR__ . '/vendor/autoload.php';
     if (class_exists('PHPMailer\PHPMailer\PHPMailer')) {
@@ -81,54 +67,42 @@ if (file_exists(__DIR__ . '/vendor/autoload.php')) {
             $mail->Subject = $subject;
             $mail->Body    = $emailBody;
             $mail->send();
-            $phpmailerSent = true;
+            $mailSent = true;
         } catch (Exception $e) {
-            $phpmailerSent = false;
+            $mailSent = false;
         }
     }
 }
 
-// -------------------------------------------------------------
-// Method 2: High-Deliverability cURL Relay to projects.racs@gmail.com
-// -------------------------------------------------------------
-if (function_exists('curl_init')) {
-    $postPayload = $_POST;
-    $postPayload['_subject'] = $subject;
-    $postPayload['_captcha'] = 'false';
-    $postPayload['_template'] = 'table';
-
-    $ch = curl_init('https://formsubmit.co/ajax/' . $to);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postPayload));
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, [
-        'Accept: application/json',
-        'Origin: https://racsprojects.com',
-        'Referer: https://racsprojects.com/'
-    ]);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-    @curl_exec($ch);
-    @curl_close($ch);
-}
-
-// -------------------------------------------------------------
-// Method 3: Native PHP mail() with Valid Server Domain Headers
-// -------------------------------------------------------------
-if (!$phpmailerSent) {
+// Method 2: Native PHP mail() with Valid Server Domain Headers
+if (!$mailSent) {
     $fromEmail = 'contact@racsprojects.in';
-
     $headers  = "MIME-Version: 1.0\r\n";
     $headers .= "Content-type: text/html; charset=UTF-8\r\n";
     $headers .= "From: RACS Projects Leads <" . $fromEmail . ">\r\n";
     if (!empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $headers .= "Reply-To: " . $fullName . " <" . $email . ">\r\n";
     }
-
     @mail($to, $subject, $emailBody, $headers);
 }
 
-// Helper function to build HTML email layout
+// Method 3: cURL Relay to FormSubmit API as secondary backup
+if (function_exists('curl_init')) {
+    $postPayload = $_POST;
+    $postPayload['_subject'] = $subject;
+    $postPayload['_captcha'] = 'false';
+
+    $ch = curl_init('https://formsubmit.co/ajax/' . $to);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postPayload));
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+    @curl_exec($ch);
+    @curl_close($ch);
+}
+
+// Helper function to construct clean HTML email layout
 function build_email_body($fullName, $email, $phone, $service, $company, $category, $location, $message) {
     return '
     <!DOCTYPE html>
@@ -181,6 +155,6 @@ function build_email_body($fullName, $email, $phone, $service, $company, $catego
     </html>';
 }
 
-header('Content-Type: application/json');
-echo json_encode(['status' => 'success', 'redirect' => 'thankyou.html']);
+// Redirect to thank you page
+header('Location: thankyou.html');
 exit;
