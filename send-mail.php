@@ -1,7 +1,7 @@
 <?php
 /**
  * RACS Projects - Lead Handler & Email Sender
- * Delivers full lead details directly to projects.racs@gmail.com
+ * Delivers full lead details from contact.html & mep.html directly to projects.racs@gmail.com
  */
 
 // Target email recipient
@@ -18,49 +18,78 @@ function sanitize_input($data) {
     return htmlspecialchars(trim(stripslashes($data)), ENT_QUOTES, 'UTF-8');
 }
 
-// Retrieve & sanitize input fields
+// Normalize all POST keys to lowercase without spaces, underscores, or dashes
+$normalizedPost = [];
+foreach ($_POST as $key => $val) {
+    if (is_string($val)) {
+        $cleanKey = strtolower(str_replace([' ', '_', '-'], '', $key));
+        $normalizedPost[$cleanKey] = sanitize_input($val);
+    }
+}
+
+// Extract Full Name
 $fullName = '';
-if (isset($_POST['Full_Name'])) $fullName = sanitize_input($_POST['Full_Name']);
-elseif (isset($_POST['name'])) $fullName = sanitize_input($_POST['name']);
-elseif (isset($_POST['fullName'])) $fullName = sanitize_input($_POST['fullName']);
-else {
-    foreach ($_POST as $key => $val) {
-        if (strpos(strtolower($key), 'name') !== false) {
-            $fullName = sanitize_input($val);
-            break;
-        }
-    }
-}
+if (isset($normalizedPost['fullname'])) $fullName = $normalizedPost['fullname'];
+elseif (isset($normalizedPost['name'])) $fullName = $normalizedPost['name'];
+else $fullName = 'Website Lead';
 
-$email = isset($_POST['Email']) ? sanitize_input($_POST['Email']) : (isset($_POST['email']) ? sanitize_input($_POST['email']) : '');
-$phone = isset($_POST['Phone']) ? sanitize_input($_POST['Phone']) : (isset($_POST['phone']) ? sanitize_input($_POST['phone']) : '');
+// Extract Email
+$email = isset($normalizedPost['email']) ? $normalizedPost['email'] : '';
 
+// Extract Phone
+$phone = isset($normalizedPost['phone']) ? $normalizedPost['phone'] : '';
+
+// Extract Service
 $service = '';
-if (isset($_POST['Required_Service'])) $service = sanitize_input($_POST['Required_Service']);
-elseif (isset($_POST['Service_Required'])) $service = sanitize_input($_POST['Service_Required']);
-elseif (isset($_POST['service'])) $service = sanitize_input($_POST['service']);
-else {
-    foreach ($_POST as $key => $val) {
-        if (strpos(strtolower($key), 'service') !== false) {
-            $service = sanitize_input($val);
-            break;
-        }
-    }
-}
+if (isset($normalizedPost['requiredservice'])) $service = $normalizedPost['requiredservice'];
+elseif (isset($normalizedPost['servicerequired'])) $service = $normalizedPost['servicerequired'];
+elseif (isset($normalizedPost['service'])) $service = $normalizedPost['service'];
 
-$company  = isset($_POST['Company_Name']) ? sanitize_input($_POST['Company_Name']) : '';
-$category = isset($_POST['Project_Category']) ? sanitize_input($_POST['Project_Category']) : '';
-$location = isset($_POST['Project_Location']) ? sanitize_input($_POST['Project_Location']) : '';
+// Extract Company
+$company = isset($normalizedPost['companyname']) ? $normalizedPost['companyname'] : (isset($normalizedPost['company']) ? $normalizedPost['company'] : '');
 
+// Extract Category
+$category = isset($normalizedPost['projectcategory']) ? $normalizedPost['projectcategory'] : (isset($normalizedPost['category']) ? $normalizedPost['category'] : '');
+
+// Extract Location
+$location = isset($normalizedPost['projectlocation']) ? $normalizedPost['projectlocation'] : (isset($normalizedPost['location']) ? $normalizedPost['location'] : '');
+
+// Extract Message / Project Details
 $message = '';
-if (isset($_POST['Message'])) $message = sanitize_input($_POST['Message']);
-elseif (isset($_POST['Project_Details'])) $message = sanitize_input($_POST['Project_Details']);
-elseif (isset($_POST['message'])) $message = sanitize_input($_POST['message']);
+if (isset($normalizedPost['message'])) $message = $normalizedPost['message'];
+elseif (isset($normalizedPost['projectdetails'])) $message = $normalizedPost['projectdetails'];
+elseif (isset($normalizedPost['details'])) $message = $normalizedPost['details'];
 
 $subject = "New MEP Lead Enquiry - " . (!empty($fullName) ? $fullName : "RACS Projects Website");
+$emailBody = build_email_body($fullName, $email, $phone, $service, $company, $category, $location, $message);
 
 // -------------------------------------------------------------
-// Method 1: High-Deliverability cURL Relay to projects.racs@gmail.com
+// Method 1: PHPMailer via vendor/autoload.php
+// -------------------------------------------------------------
+$phpmailerSent = false;
+if (file_exists(__DIR__ . '/vendor/autoload.php')) {
+    require_once __DIR__ . '/vendor/autoload.php';
+    if (class_exists('PHPMailer\PHPMailer\PHPMailer')) {
+        try {
+            $mail = new PHPMailer\PHPMailer\PHPMailer(true);
+            $mail->setFrom('contact@racsprojects.in', 'RACS Projects Leads');
+            $mail->addAddress($to);
+            if (!empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $mail->addReplyTo($email, $fullName);
+            }
+            $mail->isHTML(true);
+            $mail->Subject = $subject;
+            $mail->Body    = $emailBody;
+            $mail->send();
+            $phpmailerSent = true;
+        } catch (Exception $e) {
+            $phpmailerSent = false;
+        }
+    }
+}
+
+// -------------------------------------------------------------
+// Method 2: High-Deliverability cURL Relay to projects.racs@gmail.com
 // -------------------------------------------------------------
 if (function_exists('curl_init')) {
     $postPayload = $_POST;
@@ -73,25 +102,31 @@ if (function_exists('curl_init')) {
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postPayload));
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 8);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        'Accept: application/json',
+        'Origin: https://racsprojects.com',
+        'Referer: https://racsprojects.com/'
+    ]);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 10);
     @curl_exec($ch);
     @curl_close($ch);
 }
 
 // -------------------------------------------------------------
-// Method 2: Native PHP mail() with Valid Server Domain Headers
+// Method 3: Native PHP mail() with Valid Server Domain Headers
 // -------------------------------------------------------------
-$fromEmail = 'contact@racsprojects.in';
+if (!$phpmailerSent) {
+    $fromEmail = 'contact@racsprojects.in';
 
-$headers  = "MIME-Version: 1.0\r\n";
-$headers .= "Content-type: text/html; charset=UTF-8\r\n";
-$headers .= "From: RACS Projects Leads <" . $fromEmail . ">\r\n";
-if (!empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    $headers .= "Reply-To: " . $fullName . " <" . $email . ">\r\n";
+    $headers  = "MIME-Version: 1.0\r\n";
+    $headers .= "Content-type: text/html; charset=UTF-8\r\n";
+    $headers .= "From: RACS Projects Leads <" . $fromEmail . ">\r\n";
+    if (!empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $headers .= "Reply-To: " . $fullName . " <" . $email . ">\r\n";
+    }
+
+    @mail($to, $subject, $emailBody, $headers);
 }
-
-$emailBody = build_email_body($fullName, $email, $phone, $service, $company, $category, $location, $message);
-@mail($to, $subject, $emailBody, $headers);
 
 // Helper function to build HTML email layout
 function build_email_body($fullName, $email, $phone, $service, $company, $category, $location, $message) {
@@ -146,15 +181,6 @@ function build_email_body($fullName, $email, $phone, $service, $company, $catego
     </html>';
 }
 
-// Redirect to thank you page
-$isAjax = (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') || 
-          (isset($_SERVER['HTTP_ACCEPT']) && strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false);
-
-if ($isAjax) {
-    header('Content-Type: application/json');
-    echo json_encode(['status' => 'success', 'redirect' => 'thankyou.html']);
-    exit;
-} else {
-    header('Location: thankyou.html');
-    exit;
-}
+header('Content-Type: application/json');
+echo json_encode(['status' => 'success', 'redirect' => 'thankyou.html']);
+exit;

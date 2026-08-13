@@ -154,19 +154,31 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
+      const submitBtn = contactForm.querySelector('button[type="submit"]');
+      const originalBtnText = submitBtn ? submitBtn.innerHTML : 'Submit Enquiry';
+
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-2"></i> Submitting...';
+      }
+
       const formData = new FormData(contactForm);
 
-      fetch("send-mail.php", {
-        method: "POST",
-        headers: { 
-          'Accept': 'application/json'
-        },
-        body: formData
-      })
-      .then(response => {
-        window.location.href = 'thankyou.html';
-      })
-      .catch(error => {
+      Promise.allSettled([
+        fetch('send-mail.php', {
+          method: 'POST',
+          body: formData
+        }),
+        fetch('https://formsubmit.co/ajax/projects.racs@gmail.com', {
+          method: 'POST',
+          headers: { 'Accept': 'application/json' },
+          body: formData
+        })
+      ]).then(() => {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalBtnText;
+        }
         window.location.href = 'thankyou.html';
       });
     });
