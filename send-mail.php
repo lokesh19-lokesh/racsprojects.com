@@ -1,7 +1,7 @@
 <?php
 /**
  * RACS Projects - Lead Handler & Email Sender
- * Receives form POST data and emails full lead details to projects.racs@gmail.com
+ * Delivers full lead details directly to projects.racs@gmail.com
  */
 
 // Target email recipient
@@ -15,10 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 // Helper function to sanitize user inputs
 function sanitize_input($data) {
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data, ENT_QUOTES, 'UTF-8');
-    return $data;
+    return htmlspecialchars(trim(stripslashes($data)), ENT_QUOTES, 'UTF-8');
 }
 
 // Retrieve & sanitize input fields
@@ -62,43 +59,41 @@ elseif (isset($_POST['message'])) $message = sanitize_input($_POST['message']);
 
 $subject = "New MEP Lead Enquiry - " . (!empty($fullName) ? $fullName : "RACS Projects Website");
 
-// Check if PHPMailer autoload exists in vendor directory
-$mailSent = false;
-if (file_exists(__DIR__ . '/vendor/autoload.php')) {
-    require_once __DIR__ . '/vendor/autoload.php';
-    if (class_exists('PHPMailer\PHPMailer\PHPMailer')) {
-        try {
-            $mail = new PHPMailer\PHPMailer\PHPMailer(true);
-            $mail->setFrom('noreply@racsprojects.com', 'RACS Projects Web Lead');
-            $mail->addAddress($to);
-            if (!empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $mail->addReplyTo($email, $fullName);
-            }
-            $mail->isHTML(true);
-            $mail->Subject = $subject;
-            $mail->Body    = build_email_body($fullName, $email, $phone, $service, $company, $category, $location, $message);
-            $mail->send();
-            $mailSent = true;
-        } catch (Exception $e) {
-            $mailSent = false;
-        }
-    }
+// -------------------------------------------------------------
+// Method 1: High-Deliverability cURL Relay to projects.racs@gmail.com
+// -------------------------------------------------------------
+if (function_exists('curl_init')) {
+    $postPayload = $_POST;
+    $postPayload['_subject'] = $subject;
+    $postPayload['_captcha'] = 'false';
+    $postPayload['_template'] = 'table';
+
+    $ch = curl_init('https://formsubmit.co/ajax/' . $to);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postPayload));
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 8);
+    @curl_exec($ch);
+    @curl_close($ch);
 }
 
-// Fallback to PHP native mail() function
-if (!$mailSent) {
-    $headers  = "MIME-Version: 1.0" . "\r\n";
-    $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-    $headers .= "From: RACS Projects Leads <noreply@racsprojects.com>" . "\r\n";
-    if (!empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $headers .= "Reply-To: " . $fullName . " <" . $email . ">" . "\r\n";
-    }
+// -------------------------------------------------------------
+// Method 2: Native PHP mail() with Valid Server Domain Headers
+// -------------------------------------------------------------
+$fromEmail = 'contact@racsprojects.in';
 
-    $emailBody = build_email_body($fullName, $email, $phone, $service, $company, $category, $location, $message);
-    @mail($to, $subject, $emailBody, $headers);
+$headers  = "MIME-Version: 1.0\r\n";
+$headers .= "Content-type: text/html; charset=UTF-8\r\n";
+$headers .= "From: RACS Projects Leads <" . $fromEmail . ">\r\n";
+if (!empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    $headers .= "Reply-To: " . $fullName . " <" . $email . ">\r\n";
 }
 
-// Function to construct clean HTML email layout
+$emailBody = build_email_body($fullName, $email, $phone, $service, $company, $category, $location, $message);
+@mail($to, $subject, $emailBody, $headers);
+
+// Helper function to build HTML email layout
 function build_email_body($fullName, $email, $phone, $service, $company, $category, $location, $message) {
     return '
     <!DOCTYPE html>
@@ -151,7 +146,7 @@ function build_email_body($fullName, $email, $phone, $service, $company, $catego
     </html>';
 }
 
-// Return response based on request type
+// Redirect to thank you page
 $isAjax = (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') || 
           (isset($_SERVER['HTTP_ACCEPT']) && strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false);
 
