@@ -1,0 +1,25 @@
+# RACS Projects - MEP Engineering & Contracting
+
+> RACS Projects is a premier MEP (Mechanical, Electrical, and Plumbing) engineering and contracting firm based in Hyderabad, Telangana, India. We deliver end-to-end design, installation, testing, commissioning, and AMC maintenance solutions for residential, commercial, industrial, healthcare, and infrastructure projects across India.
+
+## Company Overview
+- **Name**: RACS Projects
+- **Industry**: MEP Engineering & Contracting (Mechanical, Electrical, Plumbing, Fire Fighting, BMS/ELV)
+- **Headquarters**: Plot No. 1295 & 1296, Flat No. 303, 3rd Floor, SR White House, Venkata Ramana Colony, Gokul Plots, KPHB, Hyderabad - 500 072, Telangana, India.
+- **Phone**: +91 88010 09297, +91 81064 12008
+- **Email**: contact@racsprojects.in
+- **Website**: https://racsprojects.com/
+
+## Core Services (Strict Portfolio Sequence)
+1. **Fire Fighting Systems**: Complete fire protection, hydrant systems, automatic sprinkler networks, fire alarm panels, FM200 suppression, and NFPA / NBC compliant safety solutions.
+2. **HVAC & Ventilation**: Central chilled water plants, VRF/VRV air conditioning, ventilation ducting, cleanroom HVAC, stairwell pressurization, and energy-efficient cooling.
+3. **Electrical Systems**: High voltage transformer substations, main LT distribution panels, DG backup sets, internal lighting & power wiring, cable tray management, and lightning protection.
+4. **Plumbing Systems**: Water supply hydro-pneumatic booster pumps, drainage & sewerage networks, rainwater harvesting, STPs, solar water heating, and sanitary fixtures installation.
+5. **BMS & ELV Systems**: Building Management Systems (BMS), CCTV video surveillance, access control, public address (PA) systems, data networking, structured cabling, and smart automation.
+
+## Pages & Key Resources
+- [Home](https://racsprojects.com/): Company introduction, 5 core MEP services, statistical highlights, working process, and project showcase.
+- [About Us](https://racsprojects.com/about.html): Corporate vision, mission, engineering standards, quality compliance (ISO, NFPA, ASHRAE, NBC), and execution methodology.
+- [Services](https://racsprojects.com/services.html): Detailed scope of work, technical specifications, and key deliverables for all 5 MEP engineering disciplines.
+- [Projects](https://racsprojects.com/projects.html): Filterable portfolio of corporate office complexes, luxury residential towers, commercial malls, healthcare centers, and industrial facilities.
+- [Contact Us](https://racsprojects.com/contact.html): Office location map, interactive enquiry form, direct phone numbers, and official communication channels.
