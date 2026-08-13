@@ -324,13 +324,13 @@ img {
    -------------------------------------------------------------------------- */
 .hero-racs {
   position: relative;
-  min-height: 90vh;
+  min-height: 92vh;
   display: flex;
   align-items: center;
-  padding-top: 130px;
-  padding-bottom: 80px;
+  padding-top: 150px;
+  padding-bottom: 90px;
   background-size: cover;
-  background-position: center;
+  background-position: center center;
   background-repeat: no-repeat;
   overflow: hidden;
 }
@@ -339,9 +339,11 @@ img {
   position: absolute;
   inset: 0;
   background: linear-gradient(
-    180deg,
-    rgba(23, 35, 45, 0.92) 0%,
-    rgba(23, 35, 45, 0.96) 100%
+    90deg,
+    rgba(15, 23, 35, 0.82) 0%,
+    rgba(15, 23, 35, 0.65) 45%,
+    rgba(15, 23, 35, 0.25) 75%,
+    rgba(15, 23, 35, 0.05) 100%
   );
   z-index: 1;
 }
@@ -351,34 +353,78 @@ img {
   z-index: 2;
 }
 
+.hero-racs .section-tag {
+  background: rgba(29, 143, 205, 0.3);
+  border: 1px solid #1D8FCD;
+  color: #FFFFFF !important;
+  font-weight: 700;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
 .hero-title {
-  font-size: clamp(2.5rem, 5.5vw, 4.2rem);
+  font-size: clamp(2.4rem, 4.8vw, 3.8rem);
   font-weight: 800;
   line-height: 1.15;
-  margin-bottom: 1.5rem;
-  color: var(--brand-white);
+  margin-bottom: 1.25rem;
+  color: #FFFFFF !important;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8);
 }
 
 .hero-subtitle {
-  font-size: clamp(1.1rem, 2vw, 1.35rem);
-  color: rgba(255, 255, 255, 0.85);
-  max-width: 680px;
-  margin-bottom: 2.2rem;
-  font-weight: 400;
+  font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+  color: #FFFFFF !important;
+  max-width: 580px;
+  margin-bottom: 2rem;
+  font-weight: 500;
   line-height: 1.6;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.85);
+}
+
+.hero-racs .btn-racs-primary {
+  background-color: #1D8FCD !important;
+  color: #FFFFFF !important;
+  font-weight: 700;
+  box-shadow: 0 4px 20px rgba(29, 143, 205, 0.5);
+}
+
+.hero-racs .btn-racs-outline {
+  color: #FFFFFF !important;
+  border-color: #FFFFFF !important;
+  background: rgba(255, 255, 255, 0.18) !important;
+  backdrop-filter: blur(8px);
+  font-weight: 600;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.hero-racs .btn-racs-outline:hover {
+  background: #1D8FCD !important;
+  border-color: #1D8FCD !important;
+  color: #FFFFFF !important;
 }
 
 .hero-stats-badge {
   display: flex;
   align-items: center;
   gap: 15px;
-  padding: 12px 20px;
-  background: rgba(255, 255, 255, 0.08);
+  padding: 12px 22px;
+  background: rgba(15, 23, 35, 0.8);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: var(--radius-md);
   margin-top: 2rem;
   max-width: max-content;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.hero-stats-badge i {
+  color: #1D8FCD !important;
+}
+
+.hero-stats-badge span {
+  color: #FFFFFF !important;
+  font-weight: 600;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
 }
 
 /* --------------------------------------------------------------------------
@@ -847,16 +893,37 @@ img {
 /* --------------------------------------------------------------------------
    14. RESPONSIVE BREAKPOINTS
    -------------------------------------------------------------------------- */
+@media (max-width: 991.98px) {
+  .hero-racs {
+    min-height: 85vh;
+    padding-top: 130px;
+    padding-bottom: 70px;
+    background-position: center right;
+  }
+
+  .hero-overlay {
+    background: linear-gradient(
+      180deg,
+      rgba(23, 35, 45, 0.95) 0%,
+      rgba(23, 35, 45, 0.88) 60%,
+      rgba(23, 35, 45, 0.75) 100%
+    );
+  }
+}
+
 @media (max-width: 767.98px) {
   .hero-racs {
-    padding-top: 110px;
-    padding-bottom: 60px;
-    text-align: center;
+    min-height: 80vh;
+    padding-top: 115px;
+    padding-bottom: 50px;
+    text-align: left;
+    background-position: center right;
   }
 
   .hero-stats-badge {
-    margin-left: auto;
-    margin-right: auto;
+    margin-left: 0;
+    margin-right: 0;
+    flex-wrap: wrap;
   }
 
   .section-title {
