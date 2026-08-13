@@ -170,22 +170,8 @@ document.addEventListener('DOMContentLoaded', () => {
           submitBtn.disabled = false;
           submitBtn.innerHTML = originalBtnText;
         }
-
-        if (formAlert) {
-          formAlert.className = 'alert alert-success mt-3 p-3 border-0 bg-success text-white rounded-3 shadow-lg';
-          formAlert.innerHTML = `
-            <div class="d-flex align-items-center">
-              <i class="fa-solid fa-circle-check fs-3 me-3"></i>
-              <div>
-                <strong>Thank you for contacting RACS Projects!</strong>
-                <p class="mb-0 small">Your enquiry has been submitted successfully. Our MEP engineering team will get back to you shortly.</p>
-              </div>
-            </div>
-          `;
-          formAlert.classList.remove('d-none');
-          formAlert.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
-      }, 1200);
+        window.location.href = 'thankyou.html';
+      }, 600);
     });
   }
 

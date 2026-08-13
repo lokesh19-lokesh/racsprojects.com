@@ -24,3 +24,4 @@
 - [Projects](https://racsprojects.com/projects.html): Filterable portfolio of corporate office complexes, luxury residential towers, commercial malls, healthcare centers, and industrial facilities.
 - [Contact Us](https://racsprojects.com/contact.html): Office location map, interactive enquiry form, direct phone numbers, and official communication channels.
 - [MEP Google Ads Landing Page](https://racsprojects.com/mep.html): High-conversion landing page for technical estimates, instant phone callbacks, and turnkey MEP proposals.
+- [Thank You Page](https://racsprojects.com/thankyou.html): Lead confirmation and next-step onboarding page following form submission.

@@ -814,11 +814,8 @@
             adsForm.classList.remove('was-validated');
             submitBtn.disabled = false;
             submitBtn.innerHTML = originalText;
-            if (formSuccess) {
-              formSuccess.classList.remove('d-none');
-              formSuccess.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            }
-          }, 1000);
+            window.location.href = 'thankyou.html';
+          }, 600);
         });
       }
     });
