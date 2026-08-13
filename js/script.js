@@ -154,24 +154,21 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      // Simulated submit state
-      const submitBtn = contactForm.querySelector('button[type="submit"]');
-      const originalBtnText = submitBtn ? submitBtn.innerHTML : 'Submit Enquiry';
-      
-      if (submitBtn) {
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Submitting...';
-      }
+      const formData = new FormData(contactForm);
 
-      setTimeout(() => {
-        contactForm.reset();
-        contactForm.classList.remove('was-validated');
-        if (submitBtn) {
-          submitBtn.disabled = false;
-          submitBtn.innerHTML = originalBtnText;
-        }
+      fetch("send-mail.php", {
+        method: "POST",
+        headers: { 
+          'Accept': 'application/json'
+        },
+        body: formData
+      })
+      .then(response => {
         window.location.href = 'thankyou.html';
-      }, 600);
+      })
+      .catch(error => {
+        window.location.href = 'thankyou.html';
+      });
     });
   }
 

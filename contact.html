@@ -168,39 +168,43 @@
               Fill out the form below to request a detailed proposal or schedule a project meeting.
             </p>
 
-            <form id="racs-contact-form" class="needs-validation" novalidate>
+            <form action="send-mail.php" method="POST" id="racs-contact-form" class="needs-validation" novalidate>
+              <input type="hidden" name="_subject" value="New Website Lead - RACS Projects">
+              <input type="hidden" name="_captcha" value="false">
+              <input type="hidden" name="_next" value="https://racsprojects.com/thankyou.html">
+
               <div class="row g-3">
                 <!-- Full Name -->
                 <div class="col-md-6">
                   <label for="fullName" class="form-label small text-muted-custom">Full Name *</label>
-                  <input type="text" class="form-control racs-input" id="fullName" placeholder="e.g. Rahul Sharma" required>
+                  <input type="text" name="Full Name" class="form-control racs-input" id="fullName" placeholder="e.g. Rahul Sharma" required>
                   <div class="invalid-feedback small">Please provide your full name.</div>
                 </div>
 
                 <!-- Company Name -->
                 <div class="col-md-6">
                   <label for="companyName" class="form-label small text-muted-custom">Company Name</label>
-                  <input type="text" class="form-control racs-input" id="companyName" placeholder="e.g. Apex Builders Ltd.">
+                  <input type="text" name="Company Name" class="form-control racs-input" id="companyName" placeholder="e.g. Apex Builders Ltd.">
                 </div>
 
                 <!-- Email Address -->
                 <div class="col-md-6">
                   <label for="emailAddress" class="form-label small text-muted-custom">Email Address *</label>
-                  <input type="email" class="form-control racs-input" id="emailAddress" placeholder="name@company.com" required>
+                  <input type="email" name="Email" class="form-control racs-input" id="emailAddress" placeholder="name@company.com" required>
                   <div class="invalid-feedback small">Please enter a valid email address.</div>
                 </div>
 
                 <!-- Phone Number -->
                 <div class="col-md-6">
                   <label for="phoneNumber" class="form-label small text-muted-custom">Phone Number *</label>
-                  <input type="tel" class="form-control racs-input" id="phoneNumber" placeholder="+91 XXXXX XXXXX" required>
+                  <input type="tel" name="Phone" class="form-control racs-input" id="phoneNumber" placeholder="+91 XXXXX XXXXX" required>
                   <div class="invalid-feedback small">Please enter your phone number.</div>
                 </div>
 
                 <!-- Project Type -->
                 <div class="col-md-6">
                   <label for="projectType" class="form-label small text-muted-custom">Project Type</label>
-                  <select class="form-select racs-input" id="projectType">
+                  <select name="Project Category" class="form-select racs-input" id="projectType">
                     <option value="" selected disabled>Select Project Category</option>
                     <option value="Commercial">Commercial Office / Mall</option>
                     <option value="Residential">Residential Tower / Villa</option>
@@ -214,7 +218,7 @@
                 <!-- Required Service Dropdown (STRICT ORDER) -->
                 <div class="col-md-6">
                   <label for="requiredService" class="form-label small text-muted-custom">Required Service *</label>
-                  <select class="form-select racs-input" id="requiredService" required>
+                  <select name="Required Service" class="form-select racs-input" id="requiredService" required>
                     <option value="" selected disabled>Select Service Discipline</option>
                     <option value="Fire Fighting Systems">01. Fire Fighting Systems</option>
                     <option value="HVAC & Ventilation">02. HVAC & Ventilation</option>
@@ -228,14 +232,14 @@
                 <!-- Project Location -->
                 <div class="col-12">
                   <label for="projectLocation" class="form-label small text-muted-custom">Project Location *</label>
-                  <input type="text" class="form-control racs-input" id="projectLocation" placeholder="City, State (e.g. Hyderabad, Telangana)" required>
+                  <input type="text" name="Project Location" class="form-control racs-input" id="projectLocation" placeholder="City, State (e.g. Hyderabad, Telangana)" required>
                   <div class="invalid-feedback small">Please specify the project location.</div>
                 </div>
 
                 <!-- Message -->
                 <div class="col-12">
                   <label for="messageText" class="form-label small text-muted-custom">Message / Project Details *</label>
-                  <textarea class="form-control racs-input" id="messageText" rows="4" placeholder="Briefly describe your project scope, timeline, or technical requirements..." required></textarea>
+                  <textarea name="Message" class="form-control racs-input" id="messageText" rows="4" placeholder="Briefly describe your project scope, timeline, or technical requirements..." required></textarea>
                   <div class="invalid-feedback small">Please provide a message.</div>
                 </div>
 

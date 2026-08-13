@@ -327,28 +327,32 @@
             <h3 class="h4 fw-bold text-dark mb-1">Get Free Technical Quote</h3>
             <p class="text-muted small mb-4">Request a free site inspection, BOQ estimation, or technical proposal.</p>
 
-            <form id="adsLeadForm" novalidate>
+            <form action="send-mail.php" method="POST" id="adsLeadForm" novalidate>
+              <input type="hidden" name="_subject" value="New Google Ads Lead - RACS Projects">
+              <input type="hidden" name="_captcha" value="false">
+              <input type="hidden" name="_next" value="https://racsprojects.com/thankyou.html">
+
               <div class="mb-3">
                 <label for="adName" class="form-label small fw-bold text-dark mb-1">Full Name *</label>
-                <input type="text" class="form-control racs-input" id="adName" placeholder="Enter your full name" required>
+                <input type="text" name="Full Name" class="form-control racs-input" id="adName" placeholder="Enter your full name" required>
                 <div class="invalid-feedback">Please enter your full name.</div>
               </div>
 
               <div class="mb-3">
                 <label for="adPhone" class="form-label small fw-bold text-dark mb-1">Phone Number *</label>
-                <input type="tel" class="form-control racs-input" id="adPhone" placeholder="+91 XXXXX XXXXX" required>
+                <input type="tel" name="Phone" class="form-control racs-input" id="adPhone" placeholder="+91 XXXXX XXXXX" required>
                 <div class="invalid-feedback">Please enter a valid phone number.</div>
               </div>
 
               <div class="mb-3">
                 <label for="adEmail" class="form-label small fw-bold text-dark mb-1">Email Address *</label>
-                <input type="email" class="form-control racs-input" id="adEmail" placeholder="name@company.com" required>
+                <input type="email" name="Email" class="form-control racs-input" id="adEmail" placeholder="name@company.com" required>
                 <div class="invalid-feedback">Please enter a valid email address.</div>
               </div>
 
               <div class="mb-3">
                 <label for="adService" class="form-label small fw-bold text-dark mb-1">Service Required *</label>
-                <select class="form-select racs-input" id="adService" required>
+                <select name="Service Required" class="form-select racs-input" id="adService" required>
                   <option value="" selected disabled>Select Required MEP Service</option>
                   <option value="Fire Fighting Systems">01. Fire Fighting Systems</option>
                   <option value="HVAC & Ventilation">02. HVAC &amp; Ventilation</option>
@@ -361,7 +365,7 @@
 
               <div class="mb-3">
                 <label for="adProjectDetails" class="form-label small fw-bold text-dark mb-1">Project Details / Location</label>
-                <textarea class="form-control racs-input" id="adProjectDetails" rows="2" placeholder="Brief details about your project type & area (sq. ft.)."></textarea>
+                <textarea name="Project Details" class="form-control racs-input" id="adProjectDetails" rows="2" placeholder="Brief details about your project type & area (sq. ft.)."></textarea>
               </div>
 
               <button type="submit" class="btn-racs btn-racs-primary w-100 py-3 fw-bold fs-6 shadow-lg">
@@ -805,17 +809,26 @@
           }
 
           const submitBtn = adsForm.querySelector('button[type="submit"]');
-          const originalText = submitBtn.innerHTML;
-          submitBtn.disabled = true;
-          submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-2"></i> Submitting Request...';
+          if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-2"></i> Submitting Request...';
+          }
 
-          setTimeout(() => {
-            adsForm.reset();
-            adsForm.classList.remove('was-validated');
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = originalText;
+          const formData = new FormData(adsForm);
+
+          fetch("send-mail.php", {
+            method: "POST",
+            headers: { 
+              'Accept': 'application/json'
+            },
+            body: formData
+          })
+          .then(response => {
             window.location.href = 'thankyou.html';
-          }, 600);
+          })
+          .catch(error => {
+            window.location.href = 'thankyou.html';
+          });
         });
       }
     });
