@@ -239,6 +239,19 @@ img {
   letter-spacing: 0.04em;
 }
 
+.brand-logo-img {
+  height: 58px;
+  width: auto;
+  max-width: 300px;
+  object-fit: contain;
+  transition: var(--transition-fast);
+}
+
+.footer-racs .brand-logo-img {
+  height: 68px;
+  max-width: 340px;
+}
+
 .logo-badge {
   width: 40px;
   height: 40px;
