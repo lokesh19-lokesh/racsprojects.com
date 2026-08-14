@@ -215,45 +215,168 @@
   <!-- ==========================================
        HERO SECTION
        ========================================== -->
-  <section class="hero-racs" style="background-image: url('assets/images/hero-bg.jpg');">
-    <div class="hero-overlay"></div>
-    <div class="container hero-content">
-      <div class="row align-items-center">
-        <div class="col-lg-6 col-xl-6 reveal-on-scroll">
-          <div class="section-tag">
-            <i class="fa-solid fa-shield-halved"></i> Premier MEP Contracting Firm
-          </div>
-          <h1 class="hero-title">
-            Engineering Better Spaces.<br>
-            Building Smarter Futures.
-          </h1>
-          <p class="hero-subtitle">
-            RACS Projects delivers reliable, efficient, and integrated MEP solutions for commercial, residential,
-            industrial, and infrastructure projects.
-          </p>
-          <div class="d-flex flex-wrap gap-3">
-            <a href="services.html" class="btn-racs btn-racs-primary">
-              Explore Our Services <i class="fa-solid fa-layer-group"></i>
-            </a>
-            <a href="projects.html" class="btn-racs btn-racs-outline">
-              View Our Projects <i class="fa-solid fa-building-circle-check"></i>
-            </a>
-          </div>
+  <section id="heroCarousel" class="carousel slide carousel-fade hero-carousel" data-bs-ride="carousel" data-bs-interval="4000">
+    <!-- Indicators -->
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+      <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
+      <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="4" aria-label="Slide 5"></button>
+    </div>
 
-          <div class="hero-stats-badge mt-4">
-            <div class="d-flex align-items-center gap-2">
-              <i class="fa-solid fa-circle-check text-accent-cyan fs-5"></i>
-              <span class="small fw-semibold text-bright">Certified Engineering Quality</span>
+    <!-- Carousel Content -->
+    <div class="carousel-inner">
+      <!-- Slide 1: Fire Fighting -->
+      <div class="carousel-item active" style="background-image: url('assets/images/hero-service-1.jpg');">
+        <div class="hero-overlay"></div>
+        <div class="container hero-carousel-content">
+          <div class="row align-items-center w-100">
+            <div class="col-lg-7 col-xl-6">
+              <div class="section-tag">
+                <i class="fa-solid fa-fire-extinguisher"></i> Premier Fire Protection
+              </div>
+              <h1 class="hero-title">
+                Advanced Fire<br>Suppression Solutions
+              </h1>
+              <p class="hero-subtitle">
+                Safeguarding commercial and industrial infrastructure with state-of-the-art, compliant fire fighting systems.
+              </p>
+              <div class="d-flex flex-wrap gap-3">
+                <a href="services.html" class="btn-racs btn-racs-primary">
+                  Explore Our Services <i class="fa-solid fa-layer-group"></i>
+                </a>
+                <a href="projects.html" class="btn-racs btn-racs-outline">
+                  View Our Projects <i class="fa-solid fa-building-circle-check"></i>
+                </a>
+              </div>
             </div>
-            <div class="vr bg-secondary opacity-50 mx-2" style="height: 20px;"></div>
-            <div class="d-flex align-items-center gap-2">
-              <i class="fa-solid fa-bolt text-accent-amber fs-5"></i>
-              <span class="small fw-semibold text-bright">Energy Efficient Systems</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 2: HVAC -->
+      <div class="carousel-item" style="background-image: url('assets/images/hero-service-2.jpg');">
+        <div class="hero-overlay"></div>
+        <div class="container hero-carousel-content">
+          <div class="row align-items-center w-100">
+            <div class="col-lg-7 col-xl-6">
+              <div class="section-tag">
+                <i class="fa-solid fa-fan"></i> Intelligent Climate Control
+              </div>
+              <h1 class="hero-title">
+                Industrial HVAC &<br>Ventilation Systems
+              </h1>
+              <p class="hero-subtitle">
+                Optimized cooling and air distribution engineering for maximum energy efficiency and environmental comfort.
+              </p>
+              <div class="d-flex flex-wrap gap-3">
+                <a href="services.html" class="btn-racs btn-racs-primary">
+                  Explore Our Services <i class="fa-solid fa-layer-group"></i>
+                </a>
+                <a href="projects.html" class="btn-racs btn-racs-outline">
+                  View Our Projects <i class="fa-solid fa-building-circle-check"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 3: Electrical -->
+      <div class="carousel-item" style="background-image: url('assets/images/hero-service-3.jpg');">
+        <div class="hero-overlay"></div>
+        <div class="container hero-carousel-content">
+          <div class="row align-items-center w-100">
+            <div class="col-lg-7 col-xl-6">
+              <div class="section-tag">
+                <i class="fa-solid fa-bolt"></i> Resilient Power Delivery
+              </div>
+              <h1 class="hero-title">
+                High-Performance<br>Electrical Engineering
+              </h1>
+              <p class="hero-subtitle">
+                Comprehensive electrical contracting, from high-voltage substations to precision internal wiring and paneling.
+              </p>
+              <div class="d-flex flex-wrap gap-3">
+                <a href="services.html" class="btn-racs btn-racs-primary">
+                  Explore Our Services <i class="fa-solid fa-layer-group"></i>
+                </a>
+                <a href="projects.html" class="btn-racs btn-racs-outline">
+                  View Our Projects <i class="fa-solid fa-building-circle-check"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 4: Plumbing -->
+      <div class="carousel-item" style="background-image: url('assets/images/hero-service-4.jpg');">
+        <div class="hero-overlay"></div>
+        <div class="container hero-carousel-content">
+          <div class="row align-items-center w-100">
+            <div class="col-lg-7 col-xl-6">
+              <div class="section-tag">
+                <i class="fa-solid fa-faucet-drip"></i> Sustainable Water Management
+              </div>
+              <h1 class="hero-title">
+                Commercial Plumbing<br>Infrastructure
+              </h1>
+              <p class="hero-subtitle">
+                Robust piping networks, filtration systems, and drainage engineering designed for large-scale facilities.
+              </p>
+              <div class="d-flex flex-wrap gap-3">
+                <a href="services.html" class="btn-racs btn-racs-primary">
+                  Explore Our Services <i class="fa-solid fa-layer-group"></i>
+                </a>
+                <a href="projects.html" class="btn-racs btn-racs-outline">
+                  View Our Projects <i class="fa-solid fa-building-circle-check"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 5: BMS -->
+      <div class="carousel-item" style="background-image: url('assets/images/hero-service-5.jpg');">
+        <div class="hero-overlay"></div>
+        <div class="container hero-carousel-content">
+          <div class="row align-items-center w-100">
+            <div class="col-lg-7 col-xl-6">
+              <div class="section-tag">
+                <i class="fa-solid fa-server"></i> Smart Building Technology
+              </div>
+              <h1 class="hero-title">
+                Integrated BMS &<br>ELV Solutions
+              </h1>
+              <p class="hero-subtitle">
+                Centralized monitoring and automation of mechanical, electrical, and security systems for intelligent operations.
+              </p>
+              <div class="d-flex flex-wrap gap-3">
+                <a href="services.html" class="btn-racs btn-racs-primary">
+                  Explore Our Services <i class="fa-solid fa-layer-group"></i>
+                </a>
+                <a href="projects.html" class="btn-racs btn-racs-outline">
+                  View Our Projects <i class="fa-solid fa-building-circle-check"></i>
+                </a>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- Controls -->
+    <button class="carousel-control-prev d-none d-md-flex" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next d-none d-md-flex" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
   </section>
 
   <!-- ==========================================

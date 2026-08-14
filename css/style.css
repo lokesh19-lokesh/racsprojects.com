@@ -338,15 +338,43 @@ img {
   overflow: hidden;
 }
 
+.hero-carousel {
+  position: relative;
+  min-height: 92vh;
+  overflow: hidden;
+}
+
+.hero-carousel .carousel-inner,
+.hero-carousel .carousel-item {
+  height: 100%;
+  min-height: 92vh;
+}
+
+.hero-carousel .carousel-item {
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+.hero-carousel-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  padding-top: 150px;
+  padding-bottom: 90px;
+  z-index: 3;
+}
+
 .hero-overlay {
   position: absolute;
   inset: 0;
   background: linear-gradient(
     90deg,
-    rgba(15, 23, 35, 0.82) 0%,
-    rgba(15, 23, 35, 0.65) 45%,
-    rgba(15, 23, 35, 0.25) 75%,
-    rgba(15, 23, 35, 0.05) 100%
+    rgba(15, 23, 35, 0.85) 0%,
+    rgba(15, 23, 35, 0.70) 45%,
+    rgba(15, 23, 35, 0.35) 75%,
+    rgba(15, 23, 35, 0.10) 100%
   );
   z-index: 1;
 }
